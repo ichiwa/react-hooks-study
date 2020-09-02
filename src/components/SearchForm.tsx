@@ -23,9 +23,9 @@ const useStyles = makeStyles((theme) => ({
 const SearchForm: React.FC = () => {
   const classes = useStyles()
   const { handleSubmit, control } = useForm()
-  const { setUserName } = useContext(UsersContext)
+  const { setParams } = useContext(UsersContext)
   const onSubmit = (values) => {
-    setUserName(values.name)
+    setParams(values)
   }
   return (
     <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
@@ -34,28 +34,23 @@ const SearchForm: React.FC = () => {
         <Grid item xs={12}>
           <Controller
             as={TextField}
-            name="name"
+            name="id"
             control={control}
             defaultValue=""
+            fullWidth
+            label="ID"
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Controller
+            as={TextField}
+            name="username"
+            defaultValue=""
+            control={control}
             fullWidth
             label="Username"
           />
         </Grid>
-        {/*
-        <Grid item xs={12}>
-          <Controller
-            as={Select}
-            name="gender"
-            control={control}
-            defaultValue=""
-            fullWidth
-          >
-            <MenuItem value="">Both</MenuItem>
-            <MenuItem value="male">Male</MenuItem>
-            <MenuItem value="female">Female</MenuItem>
-          </Controller>
-        </Grid>
-        */}
         <Grid item xs={12}>
           <Button
             fullWidth
