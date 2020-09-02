@@ -20,6 +20,7 @@ const useStyles = makeStyles({
 const UserTable: React.FC = () => {
   const classes = useStyles()
   const { users } = useContext(UsersContext)
+
   return (
     <>
       <h3>Users</h3>

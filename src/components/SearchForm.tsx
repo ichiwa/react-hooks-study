@@ -1,13 +1,13 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import {
   TextField,
   Button,
-  Select,
-  MenuItem,
   Grid,
   makeStyles,
+  Snackbar,
 } from '@material-ui/core'
+import { Alert } from '@material-ui/lab'
 import { UsersContext } from './../contexts/users'
 
 const useStyles = makeStyles((theme) => ({
@@ -23,9 +23,20 @@ const useStyles = makeStyles((theme) => ({
 const SearchForm: React.FC = () => {
   const classes = useStyles()
   const { handleSubmit, control } = useForm()
-  const { setParams } = useContext(UsersContext)
+  const { setParams, message, setMessage, error } = useContext(UsersContext)
+  const [open, setOpen] = React.useState(false)
+
+  useEffect(() => {
+    if (message) {
+      setOpen(true)
+    }
+  }, [message])
   const onSubmit = (values) => {
     setParams(values)
+  }
+  const handleClose = () => {
+    setMessage(null)
+    setOpen(false)
   }
   return (
     <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
@@ -63,6 +74,12 @@ const SearchForm: React.FC = () => {
           </Button>
         </Grid>
       </Grid>
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+        <>
+          {!error && <Alert severity="info">{message}</Alert>}
+          {error && <Alert severity="error">{message}</Alert>}
+        </>
+      </Snackbar>
     </form>
   )
 }
